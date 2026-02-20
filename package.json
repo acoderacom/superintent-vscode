@@ -1,0 +1,363 @@
+{
+  "name": "superintent-vscode",
+  "displayName": "Superintent VSCode",
+  "description": "Visualize and manage tmux sessions, windows and panes in VSCode sidebar",
+  "version": "0.0.1",
+  "publisher": "acodera",
+  "license": "MIT",
+  "icon": "resources/icons/icon.png",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acoderacom/superintent-vscode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/acoderacom/superintent-vscode/issues"
+  },
+  "homepage": "https://github.com/acoderacom/superintent-vscode#readme",
+  "engines": {
+    "vscode": "^1.107.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "tmux",
+    "terminal",
+    "session",
+    "multiplexer"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "superintent",
+          "title": "Superintent",
+          "icon": "resources/icons/superintent.svg"
+        }
+      ]
+    },
+    "views": {
+      "superintent": [
+        {
+          "id": "superintent.spec.list",
+          "name": "Specs"
+        },
+        {
+          "id": "superintent.knowledge.list",
+          "name": "Knowledge"
+        },
+        {
+          "id": "superintent.ticket.list",
+          "name": "Tickets"
+        },
+        {
+          "id": "superintent.tmux.sessions",
+          "name": "Remote Sessions (tmux)"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Superintent",
+      "properties": {
+        "superintent.server.url": {
+          "type": "string",
+          "default": "http://localhost:3456",
+          "description": "Superintent server URL"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "superintent.tmux.refresh",
+        "title": "Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "superintent.tmux.toggleSortOrder",
+        "title": "Toggle Sort Order",
+        "icon": "$(list-ordered)"
+      },
+      {
+        "command": "superintent.tmux.createSession",
+        "title": "New Session",
+        "icon": "$(add)"
+      },
+      {
+        "command": "superintent.tmux.deleteSession",
+        "title": "Delete Session",
+        "icon": "$(trash)"
+      },
+      {
+        "command": "superintent.tmux.copySessionId",
+        "title": "Copy Session ID"
+      },
+      {
+        "command": "superintent.tmux.renameSession",
+        "title": "Rename Session"
+      },
+      {
+        "command": "superintent.tmux.attachSession",
+        "title": "Attach to Terminal"
+      },
+      {
+        "command": "superintent.tmux.quickAttach",
+        "title": "Quick Attach Session"
+      },
+      {
+        "command": "superintent.tmux.createWindow",
+        "title": "New Window",
+        "icon": "$(add)"
+      },
+      {
+        "command": "superintent.tmux.deleteWindow",
+        "title": "Delete Window"
+      },
+      {
+        "command": "superintent.tmux.renameWindow",
+        "title": "Rename Window"
+      },
+      {
+        "command": "superintent.tmux.selectWindow",
+        "title": "Switch to Window"
+      },
+      {
+        "command": "superintent.tmux.selectPane",
+        "title": "Switch to Pane"
+      },
+      {
+        "command": "superintent.tmux.splitPaneHorizontal",
+        "title": "Split Horizontal"
+      },
+      {
+        "command": "superintent.tmux.splitPaneVertical",
+        "title": "Split Vertical"
+      },
+      {
+        "command": "superintent.tmux.killPane",
+        "title": "Close Pane"
+      },
+      {
+        "command": "superintent.tmux.swapPane",
+        "title": "Swap Pane"
+      },
+      {
+        "command": "superintent.tmux.resizePane",
+        "title": "Resize Pane"
+      },
+      {
+        "command": "superintent.tmux.toggleMouseMode",
+        "title": "Toggle Mouse Mode",
+        "icon": "$(symbol-boolean)"
+      },
+      {
+        "command": "superintent.spec.refresh",
+        "title": "Refresh Specs",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "superintent.spec.view",
+        "title": "View Spec"
+      },
+      {
+        "command": "superintent.spec.copyId",
+        "title": "Copy Spec ID"
+      },
+      {
+        "command": "superintent.knowledge.refresh",
+        "title": "Refresh Knowledge",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "superintent.knowledge.view",
+        "title": "View Knowledge"
+      },
+      {
+        "command": "superintent.knowledge.copyId",
+        "title": "Copy Knowledge ID"
+      },
+      {
+        "command": "superintent.ticket.refresh",
+        "title": "Refresh Tickets",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "superintent.ticket.view",
+        "title": "View Ticket"
+      },
+      {
+        "command": "superintent.ticket.copyId",
+        "title": "Copy Ticket ID"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "superintent.tmux.refresh",
+          "when": "view == superintent.tmux.sessions",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.tmux.toggleSortOrder",
+          "when": "view == superintent.tmux.sessions",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.tmux.createSession",
+          "when": "view == superintent.tmux.sessions",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.spec.refresh",
+          "when": "view == superintent.spec.list",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.knowledge.refresh",
+          "when": "view == superintent.knowledge.list",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.ticket.refresh",
+          "when": "view == superintent.ticket.list",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "superintent.tmux.attachSession",
+          "when": "view == superintent.tmux.sessions && viewItem == session",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.tmux.copySessionId",
+          "when": "view == superintent.tmux.sessions && viewItem == session",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "superintent.tmux.renameSession",
+          "when": "view == superintent.tmux.sessions && viewItem == session",
+          "group": "2_modify@1"
+        },
+        {
+          "command": "superintent.tmux.createWindow",
+          "when": "view == superintent.tmux.sessions && viewItem == session",
+          "group": "2_modify@2"
+        },
+        {
+          "command": "superintent.tmux.deleteSession",
+          "when": "view == superintent.tmux.sessions && viewItem == session",
+          "group": "3_delete@1"
+        },
+        {
+          "command": "superintent.tmux.selectWindow",
+          "when": "view == superintent.tmux.sessions && viewItem == window",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.tmux.renameWindow",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(window|activeWindow)$/",
+          "group": "2_modify@1"
+        },
+        {
+          "command": "superintent.tmux.splitPaneHorizontal",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(window|activeWindow)$/",
+          "group": "2_modify@2"
+        },
+        {
+          "command": "superintent.tmux.splitPaneVertical",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(window|activeWindow)$/",
+          "group": "2_modify@3"
+        },
+        {
+          "command": "superintent.tmux.deleteWindow",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(window|activeWindow)$/",
+          "group": "3_delete@1"
+        },
+        {
+          "command": "superintent.tmux.selectPane",
+          "when": "view == superintent.tmux.sessions && viewItem == pane",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.tmux.splitPaneHorizontal",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(pane|activePane)$/",
+          "group": "2_modify@1"
+        },
+        {
+          "command": "superintent.tmux.splitPaneVertical",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(pane|activePane)$/",
+          "group": "2_modify@2"
+        },
+        {
+          "command": "superintent.tmux.swapPane",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(pane|activePane)$/",
+          "group": "2_modify@3"
+        },
+        {
+          "command": "superintent.tmux.resizePane",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(pane|activePane)$/",
+          "group": "2_modify@4"
+        },
+        {
+          "command": "superintent.tmux.killPane",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(pane|activePane)$/",
+          "group": "3_delete@1"
+        },
+        {
+          "command": "superintent.tmux.toggleMouseMode",
+          "when": "view == superintent.tmux.sessions && viewItem == localConnection",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.spec.view",
+          "when": "view == superintent.spec.list && viewItem == spec",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.spec.copyId",
+          "when": "view == superintent.spec.list && viewItem == spec",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "superintent.knowledge.view",
+          "when": "view == superintent.knowledge.list && viewItem == knowledge",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.knowledge.copyId",
+          "when": "view == superintent.knowledge.list && viewItem == knowledge",
+          "group": "1_actions@2"
+        },
+        {
+          "command": "superintent.ticket.view",
+          "when": "view == superintent.ticket.list && viewItem == ticket",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.ticket.copyId",
+          "when": "view == superintent.ticket.list && viewItem == ticket",
+          "group": "1_actions@2"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run build",
+    "build": "node esbuild.js --production",
+    "watch": "node esbuild.js --watch",
+    "package": "mkdir -p release && vsce package --allow-missing-repository --out release",
+    "lint": "biome check src",
+    "lint:fix": "biome check --write src"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^25.3.0",
+    "@types/vscode": "^1.107.0",
+    "esbuild": "^0.27.3",
+    "typescript": "^5.9.3"
+  }
+}

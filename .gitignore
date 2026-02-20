@@ -1,0 +1,11 @@
+node_modules/
+dist/
+*.vsix
+.vscode-test/
+release/
+
+.DS_Store
+
+# Superintent
+.superintent/.env
+.superintent/*.db
