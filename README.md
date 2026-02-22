@@ -1,8 +1,15 @@
 # Superintent VSCode
 
-AI-powered development companion — manage tmux sessions, track tickets, specs, and knowledge from your sidebar.
+VScode extension for Superintent. Manage projects, tmux sessions, track specs, ticket, and knowledge from your sidebar.
 
 ## Features
+
+### Projects
+- **Folder-based projects** — Add any folder as a project via native folder dialog
+- **Custom categories** — Create, rename, and delete categories to organize projects
+- **Drag and drop** — Move projects between categories and reorder within them
+- **Open in New Window** — Right-click to launch a project in a new VS Code window
+- **Local persistence** — Data stored in VS Code globalState, no server needed
 
 ### Tmux Management
 - **Visual session control** — Create, rename, delete sessions/windows/panes via context menus
@@ -25,15 +32,16 @@ AI-powered development companion — manage tmux sessions, track tickets, specs,
 
 ## Requirements
 
-- `tmux` installed on local machine
+- `tmux` installed on local machine (for tmux features)
 - Superintent server running for tickets, knowledge, and specs
 
 ## Quick Start
 
 1. Click the Superintent icon in the activity bar
-2. **Tmux** — Expand Local/Remote groups to manage sessions
-3. **Tickets/Knowledge/Specs** — Configure server URL in settings, data syncs via SSE
-4. Right-click on any item for available actions
+2. **Projects** — Click `+` to create a category, then right-click to add project folders
+3. **Tmux** — Expand Local/Remote groups to manage sessions
+4. **Tickets/Knowledge/Specs** — Configure server URL in settings, data syncs via SSE
+5. Right-click on any item for available actions
 
 ## License
 

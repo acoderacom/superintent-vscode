@@ -1,7 +1,7 @@
 {
   "name": "superintent-vscode",
   "displayName": "Superintent VSCode",
-  "description": "AI-powered development companion — manage tmux sessions, track tickets, specs, and knowledge from your sidebar",
+  "description": "VScode extension for Superintent. Manage projects, tmux sessions, track specs, ticket, and knowledge from your sidebar.",
   "version": "0.0.1",
   "publisher": "acodera",
   "license": "MIT",
