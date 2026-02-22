@@ -1,4 +1,4 @@
-# Superintent VSCode
+# superintent-vscode
 
 VScode extension for Superintent. Manage projects, tmux sessions, track specs, ticket, and knowledge from your sidebar.
 
