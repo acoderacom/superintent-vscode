@@ -180,6 +180,14 @@
         "title": "Copy Knowledge ID"
       },
       {
+        "command": "superintent.knowledge.activate",
+        "title": "Activate Knowledge"
+      },
+      {
+        "command": "superintent.knowledge.deactivate",
+        "title": "Deactivate Knowledge"
+      },
+      {
         "command": "superintent.ticket.refresh",
         "title": "Refresh Tickets",
         "icon": "$(refresh)"
@@ -324,13 +332,23 @@
         },
         {
           "command": "superintent.knowledge.view",
-          "when": "view == superintent.knowledge.list && viewItem == knowledge",
+          "when": "view == superintent.knowledge.list && viewItem =~ /^knowledge/",
           "group": "1_actions@1"
         },
         {
           "command": "superintent.knowledge.copyId",
-          "when": "view == superintent.knowledge.list && viewItem == knowledge",
+          "when": "view == superintent.knowledge.list && viewItem =~ /^knowledge/",
           "group": "1_actions@2"
+        },
+        {
+          "command": "superintent.knowledge.deactivate",
+          "when": "view == superintent.knowledge.list && viewItem == knowledge",
+          "group": "1_actions@3"
+        },
+        {
+          "command": "superintent.knowledge.activate",
+          "when": "view == superintent.knowledge.list && viewItem == knowledge-inactive",
+          "group": "1_actions@3"
         },
         {
           "command": "superintent.ticket.view",

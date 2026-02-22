@@ -41,7 +41,7 @@ export class TmuxTreeItem extends vscode.TreeItem {
                 this.iconPath = new vscode.ThemeIcon('window');
                 if (this.data.window?.active) {
                     this.description = '(active)';
-                    this.iconPath = new vscode.ThemeIcon('symbol-event');
+                    this.iconPath = new vscode.ThemeIcon('symbol-event', new vscode.ThemeColor('icon.foreground'));
                 }
                 break;
 
@@ -259,7 +259,7 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
                 );
 
                 node.iconPath = window.active
-                    ? new vscode.ThemeIcon('symbol-event')
+                    ? new vscode.ThemeIcon('symbol-event', new vscode.ThemeColor('icon.foreground'))
                     : new vscode.ThemeIcon('window');
 
                 node.contextValue = window.active ? 'activeWindow' : 'window';

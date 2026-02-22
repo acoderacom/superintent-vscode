@@ -71,7 +71,7 @@ export class SpecTreeProvider implements vscode.TreeDataProvider<SpecTreeItem> {
             { type: 'spec', spec },
         );
 
-        node.iconPath = new vscode.ThemeIcon('notebook');
+        node.iconPath = new vscode.ThemeIcon('file');
 
         const parts: string[] = [];
         if (spec.author) {

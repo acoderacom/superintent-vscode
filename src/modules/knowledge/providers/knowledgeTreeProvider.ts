@@ -104,21 +104,32 @@ export class KnowledgeTreeProvider
             collapsible,
             { type: 'category', category },
         );
-        node.iconPath = new vscode.ThemeIcon(categoryIcon(category));
+        node.iconPath = new vscode.ThemeIcon(
+            categoryIcon(category),
+            new vscode.ThemeColor('icon.foreground'),
+        );
         node.description = `${count}`;
         return node;
     }
 
     private createKnowledgeNode(knowledge: Knowledge): KnowledgeTreeItem {
+        const isActive = knowledge.active !== false;
         const node = new KnowledgeTreeItem(
             knowledge.title,
             vscode.TreeItemCollapsibleState.None,
             { type: 'knowledge', knowledge },
         );
 
-        node.iconPath = new vscode.ThemeIcon('lightbulb');
+        node.contextValue = isActive ? 'knowledge' : 'knowledge-inactive';
+        node.iconPath = new vscode.ThemeIcon(
+            'lightbulb',
+            isActive ? undefined : new vscode.ThemeColor('disabledForeground'),
+        );
 
         const parts: string[] = [];
+        if (!isActive) {
+            parts.push('inactive');
+        }
         if (knowledge.created_at) {
             parts.push(formatRelativeDate(knowledge.created_at));
         }
@@ -155,13 +166,13 @@ export class KnowledgeTreeProvider
 function categoryIcon(category?: string): string {
     switch (category) {
         case 'architecture':
-            return 'symbol-structure';
+            return 'extensions';
         case 'pattern':
             return 'symbol-method';
         case 'truth':
             return 'verified';
         case 'principle':
-            return 'law';
+            return 'flame';
         case 'gotcha':
             return 'warning';
         default:

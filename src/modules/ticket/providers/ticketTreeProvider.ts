@@ -293,7 +293,7 @@ function statusIcon(status: string): string {
         case 'Backlog':
             return 'inbox';
         case 'In Progress':
-            return 'play-circle';
+            return 'export';
         case 'In Review':
             return 'eye';
         case 'Done':

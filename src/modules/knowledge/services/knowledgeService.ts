@@ -31,7 +31,7 @@ export class KnowledgeService {
         let offset = 0;
 
         while (true) {
-            const url = `${getServerUrl()}/api/knowledge?limit=${PAGE_LIMIT}&offset=${offset}`;
+            const url = `${getServerUrl()}/api/knowledge?status=all&limit=${PAGE_LIMIT}&offset=${offset}`;
             const res = await fetch(url, {
                 signal: AbortSignal.timeout(REQUEST_TIMEOUT),
             });
@@ -75,5 +75,18 @@ export class KnowledgeService {
             throw new Error('Invalid server response format');
         }
         return json.data as Knowledge;
+    }
+
+    async setActive(id: string, active: boolean): Promise<void> {
+        const url = `${getServerUrl()}/api/knowledge/${encodeURIComponent(id)}/active`;
+        const res = await fetch(url, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `active=${active}`,
+            signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+        });
+        if (!res.ok) {
+            throw new Error(`Failed to update knowledge: ${res.status}`);
+        }
     }
 }
