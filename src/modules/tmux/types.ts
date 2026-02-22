@@ -34,6 +34,7 @@ export interface TmuxSession {
     id: string;
     name: string;
     attached: boolean;
+    attachedCount: number;
     windows: TmuxWindow[];
     windowCount: number;
     createdAt?: Date;

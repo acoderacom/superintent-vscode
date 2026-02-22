@@ -41,10 +41,15 @@ export class TmuxService {
         for (const line of lines) {
             const parts = line.split(':');
             if (parts.length >= 4) {
+                const attachedCount = Number.parseInt(parts[2], 10) || 0;
+                const isRemote = parts[1].endsWith('-remote');
                 const session: TmuxSession = {
                     id: parts[0],
                     name: parts[1],
-                    attached: parts[2] !== '0',
+                    // Remote sessions always have 1 attached client (the superintent-remote process),
+                    // so only consider them "attached" when additional clients connect
+                    attached: isRemote ? attachedCount > 1 : attachedCount > 0,
+                    attachedCount: isRemote ? Math.max(0, attachedCount - 1) : attachedCount,
                     windowCount: Number.parseInt(parts[3], 10) || 0,
                     windows: [],
                     connectionId,

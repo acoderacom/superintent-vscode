@@ -240,10 +240,10 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
 
                 node.description = `${session.windowCount} windows`;
                 if (session.attached) {
-                    node.description += ' (attached)';
+                    node.description += ` (${session.attachedCount} attached)`;
                 }
 
-                node.tooltip = `Session: ${session.name}\nWindows: ${session.windowCount}\nStatus: ${session.attached ? 'attached' : 'detached'}`;
+                node.tooltip = `Session: ${session.name}\nWindows: ${session.windowCount}\nClients: ${session.attachedCount} attached\nStatus: ${session.attached ? 'attached' : 'detached'}`;
 
                 return node;
             });
