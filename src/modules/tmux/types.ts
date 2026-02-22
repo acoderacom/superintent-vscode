@@ -50,10 +50,15 @@ export interface CommandResult {
 }
 
 /**
+ * Session group type
+ */
+export type SessionGroup = 'local' | 'remote';
+
+/**
  * Tree item type
  */
 export type TreeItemType =
-    | 'connection'
+    | 'group'
     | 'session'
     | 'window'
     | 'pane'
@@ -65,6 +70,7 @@ export type TreeItemType =
 export interface TreeNodeData {
     type: TreeItemType;
     connectionId: string;
+    group?: SessionGroup;
     session?: TmuxSession;
     window?: TmuxWindow;
     pane?: TmuxPane;

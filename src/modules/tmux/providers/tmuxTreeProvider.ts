@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import type { TmuxService } from '../services/tmuxService';
 import {
+    type SessionGroup,
     type TmuxSession,
     type TmuxWindow,
     type TreeNodeData,
@@ -25,8 +26,10 @@ export class TmuxTreeItem extends vscode.TreeItem {
 
     private setAppearance(): void {
         switch (this.data.type) {
-            case 'connection':
-                this.iconPath = new vscode.ThemeIcon('home');
+            case 'group':
+                this.iconPath = this.data.group === 'remote'
+                    ? new vscode.ThemeIcon('remote')
+                    : new vscode.ThemeIcon('home');
                 break;
 
             case 'session':
@@ -113,12 +116,12 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
 
     async getChildren(element?: TmuxTreeItem): Promise<TmuxTreeItem[]> {
         if (!element) {
-            return this.getConnectionNodes();
+            return this.getGroupNodes();
         }
 
         switch (element.data.type) {
-            case 'connection':
-                return this.getSessionNodes(element.data.connectionId);
+            case 'group':
+                return this.getSessionNodes(element.data.connectionId, element.data.group!);
 
             case 'session':
                 if (element.data.session) {
@@ -137,23 +140,39 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
         }
     }
 
-    private getConnectionNodes(): TmuxTreeItem[] {
-        const node = new TmuxTreeItem(
+    private getGroupNodes(): TmuxTreeItem[] {
+        const localNode = new TmuxTreeItem(
             'Local',
             vscode.TreeItemCollapsibleState.Collapsed,
             {
-                type: 'connection',
+                type: 'group',
                 connectionId: 'local',
+                group: 'local',
             },
         );
-        node.contextValue = 'localConnection';
-        node.iconPath = new vscode.ThemeIcon('home');
+        localNode.contextValue = 'localConnection';
 
-        return [node];
+        const remoteNode = new TmuxTreeItem(
+            'Remote',
+            vscode.TreeItemCollapsibleState.Collapsed,
+            {
+                type: 'group',
+                connectionId: 'local',
+                group: 'remote',
+            },
+        );
+        remoteNode.contextValue = 'remoteConnection';
+
+        return [localNode, remoteNode];
+    }
+
+    private isRemoteSession(name: string): boolean {
+        return name.endsWith('-remote');
     }
 
     private async getSessionNodes(
         connectionId: string,
+        group: SessionGroup,
     ): Promise<TmuxTreeItem[]> {
         try {
             const available =
@@ -171,7 +190,13 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
                 return [node];
             }
 
-            let sessions = await this.tmuxService.listSessions(connectionId);
+            const allSessions = await this.tmuxService.listSessions(connectionId);
+
+            let sessions = allSessions.filter((s) =>
+                group === 'remote'
+                    ? this.isRemoteSession(s.name)
+                    : !this.isRemoteSession(s.name),
+            );
 
             if (sessions.length === 0) {
                 const node = new TmuxTreeItem(

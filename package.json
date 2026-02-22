@@ -1,7 +1,7 @@
 {
   "name": "superintent-vscode",
   "displayName": "Superintent VSCode",
-  "description": "Visualize and manage tmux sessions, windows and panes in VSCode sidebar",
+  "description": "AI-powered development companion — manage tmux sessions, track tickets, specs, and knowledge from your sidebar",
   "version": "0.0.1",
   "publisher": "acodera",
   "license": "MIT",
@@ -56,7 +56,7 @@
         },
         {
           "id": "superintent.tmux.sessions",
-          "name": "Remote Sessions (tmux)"
+          "name": "Sessions"
         }
       ]
     },
@@ -317,7 +317,7 @@
         },
         {
           "command": "superintent.tmux.toggleMouseMode",
-          "when": "view == superintent.tmux.sessions && viewItem == localConnection",
+          "when": "view == superintent.tmux.sessions && viewItem =~ /^(localConnection|remoteConnection)$/",
           "group": "1_actions@1"
         },
         {

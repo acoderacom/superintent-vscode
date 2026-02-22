@@ -91,7 +91,12 @@ export class KnowledgeTreeProvider
 
     private getCategoryChildren(category: KnowledgeCategory): KnowledgeTreeItem[] {
         const items = this.knowledgeByCategory.get(category) || [];
-        return items.map((k) => this.createKnowledgeNode(k));
+        const sorted = [...items].sort((a, b) => {
+            const aActive = a.active !== false ? 0 : 1;
+            const bActive = b.active !== false ? 0 : 1;
+            return aActive - bActive;
+        });
+        return sorted.map((k) => this.createKnowledgeNode(k));
     }
 
     private createCategoryNode(category: KnowledgeCategory): KnowledgeTreeItem {

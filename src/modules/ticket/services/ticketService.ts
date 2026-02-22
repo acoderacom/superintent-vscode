@@ -74,7 +74,7 @@ export class TicketService {
         ) {
             throw new Error('Invalid server response format');
         }
-        return json.data as Ticket;
+        return json.data as unknown as Ticket;
     }
 
     async updateTicketStatus(id: string, status: TicketStatus): Promise<void> {

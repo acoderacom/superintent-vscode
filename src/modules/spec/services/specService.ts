@@ -74,6 +74,6 @@ export class SpecService {
         ) {
             throw new Error('Invalid server response format');
         }
-        return json.data as Spec;
+        return json.data as unknown as Spec;
     }
 }

@@ -74,7 +74,7 @@ export class KnowledgeService {
         ) {
             throw new Error('Invalid server response format');
         }
-        return json.data as Knowledge;
+        return json.data as unknown as Knowledge;
     }
 
     async setActive(id: string, active: boolean): Promise<void> {
