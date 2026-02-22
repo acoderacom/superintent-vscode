@@ -44,7 +44,7 @@ export class TmuxService {
                 const session: TmuxSession = {
                     id: parts[0],
                     name: parts[1],
-                    attached: parts[2] === '1',
+                    attached: parts[2] !== '0',
                     windowCount: Number.parseInt(parts[3], 10) || 0,
                     windows: [],
                     connectionId,
