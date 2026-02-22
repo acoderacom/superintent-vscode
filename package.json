@@ -47,12 +47,12 @@
           "name": "Specs"
         },
         {
-          "id": "superintent.knowledge.list",
-          "name": "Knowledge"
-        },
-        {
           "id": "superintent.ticket.list",
           "name": "Tickets"
+        },
+        {
+          "id": "superintent.knowledge.list",
+          "name": "Knowledge"
         },
         {
           "id": "superintent.tmux.sessions",

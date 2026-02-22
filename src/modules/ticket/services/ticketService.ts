@@ -1,5 +1,5 @@
 import * as vscode from 'vscode';
-import type { Ticket } from '../types';
+import type { Ticket, TicketStatus } from '../types';
 
 const REQUEST_TIMEOUT = 10000;
 const PAGE_LIMIT = 100;
@@ -75,5 +75,18 @@ export class TicketService {
             throw new Error('Invalid server response format');
         }
         return json.data as Ticket;
+    }
+
+    async updateTicketStatus(id: string, status: TicketStatus): Promise<void> {
+        const url = `${getServerUrl()}/api/tickets/${encodeURIComponent(id)}/status`;
+        const res = await fetch(url, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: `status=${encodeURIComponent(status)}`,
+            signal: AbortSignal.timeout(REQUEST_TIMEOUT),
+        });
+        if (!res.ok) {
+            throw new Error(`Failed to update ticket status: ${res.status}`);
+        }
     }
 }

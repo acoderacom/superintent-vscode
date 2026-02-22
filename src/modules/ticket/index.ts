@@ -18,6 +18,8 @@ export const ticketModule: Module = {
             'superintent.ticket.list',
             {
                 treeDataProvider: treeProvider,
+                dragAndDropController: treeProvider,
+                canSelectMany: true,
             },
         );
 

@@ -30,10 +30,19 @@ export class TicketTreeItem extends vscode.TreeItem {
     }
 }
 
+const TREE_MIME_TYPE =
+    'application/vnd.code.tree.superintent.ticket.list';
+
 export class TicketTreeProvider
-    implements vscode.TreeDataProvider<TicketTreeItem>
+    implements
+        vscode.TreeDataProvider<TicketTreeItem>,
+        vscode.TreeDragAndDropController<TicketTreeItem>
 {
+    readonly dropMimeTypes = [TREE_MIME_TYPE];
+    readonly dragMimeTypes = ['text/plain'];
+
     private _onDidChangeTreeData = new vscode.EventEmitter<
+        // biome-ignore lint/suspicious/noConfusingVoidType: required for EventEmitter.fire() without args
         TicketTreeItem | undefined | null | void
     >();
     readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
@@ -43,6 +52,95 @@ export class TicketTreeProvider
 
     constructor(ticketService: TicketService) {
         this.ticketService = ticketService;
+    }
+
+    async handleDrag(
+        source: readonly TicketTreeItem[],
+        dataTransfer: vscode.DataTransfer,
+        _token: vscode.CancellationToken,
+    ): Promise<void> {
+        // Pass plain serializable data — TicketTreeItem instances may lose
+        // custom properties when VS Code serializes across process boundaries.
+        const items = source
+            .filter(
+                (item) =>
+                    item.data.type === 'ticket' && item.data.ticket?.id,
+            )
+            .map((item) => ({
+                id: item.data.ticket!.id,
+                status: item.data.ticket!.status,
+            }));
+
+        if (items.length > 0) {
+            dataTransfer.set(
+                TREE_MIME_TYPE,
+                new vscode.DataTransferItem(items),
+            );
+            dataTransfer.set(
+                'text/plain',
+                new vscode.DataTransferItem(
+                    items.map((t) => t.id).join('\n'),
+                ),
+            );
+        }
+    }
+
+    async handleDrop(
+        target: TicketTreeItem | undefined,
+        dataTransfer: vscode.DataTransfer,
+        _token: vscode.CancellationToken,
+    ): Promise<void> {
+        const transferItem = dataTransfer.get(TREE_MIME_TYPE);
+        if (!transferItem || !target) {
+            return;
+        }
+
+        // Resolve the target status from the drop target
+        const targetStatus = this.resolveTargetStatus(target);
+        if (!targetStatus) {
+            return;
+        }
+
+        const draggedItems: { id: string; status: TicketStatus }[] =
+            transferItem.value;
+        const toMove = draggedItems.filter(
+            (item) => item.id && item.status !== targetStatus,
+        );
+
+        if (toMove.length === 0) {
+            return;
+        }
+
+        const results = await Promise.allSettled(
+            toMove.map((item) =>
+                this.ticketService.updateTicketStatus(
+                    item.id,
+                    targetStatus,
+                ),
+            ),
+        );
+
+        const failures = results.filter((r) => r.status === 'rejected');
+        if (failures.length > 0) {
+            vscode.window.showErrorMessage(
+                `Failed to move ${failures.length} ticket(s)`,
+            );
+        }
+
+        this.refresh();
+    }
+
+    private resolveTargetStatus(
+        target: TicketTreeItem,
+    ): TicketStatus | undefined {
+        const { type, status, ticket } = target.data;
+        if (type === 'category' && status) {
+            return status;
+        }
+        if (type === 'ticket' && ticket) {
+            return ticket.status;
+        }
+        return undefined;
     }
 
     refresh(): void {
@@ -110,9 +208,10 @@ export class TicketTreeProvider
             (sum, s) => sum + (this.ticketsByStatus.get(s)?.length ?? 0),
             0,
         );
-        const collapsible = count > 0
-            ? vscode.TreeItemCollapsibleState.Expanded
-            : vscode.TreeItemCollapsibleState.Collapsed;
+        const collapsible =
+            count > 0
+                ? vscode.TreeItemCollapsibleState.Expanded
+                : vscode.TreeItemCollapsibleState.Collapsed;
         const node = new TicketTreeItem('Archived', collapsible, {
             type: 'group',
         });
@@ -123,14 +222,14 @@ export class TicketTreeProvider
 
     private createCategoryNode(status: TicketStatus): TicketTreeItem {
         const count = this.ticketsByStatus.get(status)?.length ?? 0;
-        const collapsible = count > 0
-            ? vscode.TreeItemCollapsibleState.Expanded
-            : vscode.TreeItemCollapsibleState.Collapsed;
-        const node = new TicketTreeItem(
+        const collapsible =
+            count > 0
+                ? vscode.TreeItemCollapsibleState.Expanded
+                : vscode.TreeItemCollapsibleState.Collapsed;
+        const node = new TicketTreeItem(status, collapsible, {
+            type: 'category',
             status,
-            collapsible,
-            { type: 'category', status },
-        );
+        });
         node.iconPath = new vscode.ThemeIcon(statusIcon(status));
         node.description = `${count}`;
         return node;
