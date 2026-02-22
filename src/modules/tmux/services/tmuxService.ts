@@ -49,7 +49,9 @@ export class TmuxService {
                     // Remote sessions always have 1 attached client (the superintent-remote process),
                     // so only consider them "attached" when additional clients connect
                     attached: isRemote ? attachedCount > 1 : attachedCount > 0,
-                    attachedCount: isRemote ? Math.max(0, attachedCount - 1) : attachedCount,
+                    attachedCount: isRemote
+                        ? Math.max(0, attachedCount - 1)
+                        : attachedCount,
                     windowCount: Number.parseInt(parts[3], 10) || 0,
                     windows: [],
                     connectionId,

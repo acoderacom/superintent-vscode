@@ -43,6 +43,10 @@
     "views": {
       "superintent": [
         {
+          "id": "superintent.project.list",
+          "name": "Projects"
+        },
+        {
           "id": "superintent.spec.list",
           "name": "Specs"
         },
@@ -71,6 +75,42 @@
       }
     },
     "commands": [
+      {
+        "command": "superintent.project.refresh",
+        "title": "Refresh Projects",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "superintent.project.addCategory",
+        "title": "New Category",
+        "icon": "$(add)"
+      },
+      {
+        "command": "superintent.project.addProject",
+        "title": "Add Project",
+        "icon": "$(new-folder)"
+      },
+      {
+        "command": "superintent.project.renameCategory",
+        "title": "Rename Category"
+      },
+      {
+        "command": "superintent.project.renameProject",
+        "title": "Rename Project"
+      },
+      {
+        "command": "superintent.project.deleteCategory",
+        "title": "Delete Category"
+      },
+      {
+        "command": "superintent.project.deleteProject",
+        "title": "Remove Project"
+      },
+      {
+        "command": "superintent.project.openInNewWindow",
+        "title": "Open in New Window",
+        "icon": "$(multiple-windows)"
+      },
       {
         "command": "superintent.tmux.refresh",
         "title": "Refresh",
@@ -204,6 +244,16 @@
     "menus": {
       "view/title": [
         {
+          "command": "superintent.project.refresh",
+          "when": "view == superintent.project.list",
+          "group": "navigation"
+        },
+        {
+          "command": "superintent.project.addCategory",
+          "when": "view == superintent.project.list",
+          "group": "navigation"
+        },
+        {
           "command": "superintent.tmux.refresh",
           "when": "view == superintent.tmux.sessions",
           "group": "navigation"
@@ -235,6 +285,36 @@
         }
       ],
       "view/item/context": [
+        {
+          "command": "superintent.project.addProject",
+          "when": "view == superintent.project.list && viewItem == category",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.project.renameCategory",
+          "when": "view == superintent.project.list && viewItem == category",
+          "group": "2_modify@1"
+        },
+        {
+          "command": "superintent.project.deleteCategory",
+          "when": "view == superintent.project.list && viewItem == category",
+          "group": "3_delete@1"
+        },
+        {
+          "command": "superintent.project.openInNewWindow",
+          "when": "view == superintent.project.list && viewItem == project",
+          "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.project.renameProject",
+          "when": "view == superintent.project.list && viewItem == project",
+          "group": "2_modify@1"
+        },
+        {
+          "command": "superintent.project.deleteProject",
+          "when": "view == superintent.project.list && viewItem == project",
+          "group": "3_delete@1"
+        },
         {
           "command": "superintent.tmux.attachSession",
           "when": "view == superintent.tmux.sessions && viewItem == session",

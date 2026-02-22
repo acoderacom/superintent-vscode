@@ -2,7 +2,10 @@ import * as http from 'http';
 import * as https from 'https';
 import * as vscode from 'vscode';
 
-export type SSEEventType = 'ticket-updated' | 'knowledge-updated' | 'spec-updated';
+export type SSEEventType =
+    | 'ticket-updated'
+    | 'knowledge-updated'
+    | 'spec-updated';
 
 type Listener = () => void;
 

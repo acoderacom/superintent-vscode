@@ -1,10 +1,10 @@
 import * as vscode from 'vscode';
 import type { TmuxService } from '../services/tmuxService';
-import {
-    type SessionGroup,
-    type TmuxSession,
-    type TmuxWindow,
-    type TreeNodeData,
+import type {
+    SessionGroup,
+    TmuxSession,
+    TmuxWindow,
+    TreeNodeData,
 } from '../types';
 
 /**
@@ -27,9 +27,10 @@ export class TmuxTreeItem extends vscode.TreeItem {
     private setAppearance(): void {
         switch (this.data.type) {
             case 'group':
-                this.iconPath = this.data.group === 'remote'
-                    ? new vscode.ThemeIcon('remote')
-                    : new vscode.ThemeIcon('home');
+                this.iconPath =
+                    this.data.group === 'remote'
+                        ? new vscode.ThemeIcon('remote')
+                        : new vscode.ThemeIcon('home');
                 break;
 
             case 'session':
@@ -44,7 +45,10 @@ export class TmuxTreeItem extends vscode.TreeItem {
                 this.iconPath = new vscode.ThemeIcon('window');
                 if (this.data.window?.active) {
                     this.description = '(active)';
-                    this.iconPath = new vscode.ThemeIcon('symbol-event', new vscode.ThemeColor('icon.foreground'));
+                    this.iconPath = new vscode.ThemeIcon(
+                        'symbol-event',
+                        new vscode.ThemeColor('icon.foreground'),
+                    );
                 }
                 break;
 
@@ -109,7 +113,6 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
         this._onDidChangeTreeData.fire();
     }
 
-
     getTreeItem(element: TmuxTreeItem): vscode.TreeItem {
         return element;
     }
@@ -121,7 +124,10 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
 
         switch (element.data.type) {
             case 'group':
-                return this.getSessionNodes(element.data.connectionId, element.data.group!);
+                return this.getSessionNodes(
+                    element.data.connectionId,
+                    element.data.group!,
+                );
 
             case 'session':
                 if (element.data.session) {
@@ -190,7 +196,8 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
                 return [node];
             }
 
-            const allSessions = await this.tmuxService.listSessions(connectionId);
+            const allSessions =
+                await this.tmuxService.listSessions(connectionId);
 
             let sessions = allSessions.filter((s) =>
                 group === 'remote'
@@ -284,7 +291,10 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
                 );
 
                 node.iconPath = window.active
-                    ? new vscode.ThemeIcon('symbol-event', new vscode.ThemeColor('icon.foreground'))
+                    ? new vscode.ThemeIcon(
+                          'symbol-event',
+                          new vscode.ThemeColor('icon.foreground'),
+                      )
                     : new vscode.ThemeIcon('window');
 
                 node.contextValue = window.active ? 'activeWindow' : 'window';

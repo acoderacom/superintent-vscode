@@ -30,8 +30,7 @@ export class TicketTreeItem extends vscode.TreeItem {
     }
 }
 
-const TREE_MIME_TYPE =
-    'application/vnd.code.tree.superintent.ticket.list';
+const TREE_MIME_TYPE = 'application/vnd.code.tree.superintent.ticket.list';
 
 export class TicketTreeProvider
     implements
@@ -63,8 +62,7 @@ export class TicketTreeProvider
         // custom properties when VS Code serializes across process boundaries.
         const items = source
             .filter(
-                (item) =>
-                    item.data.type === 'ticket' && item.data.ticket?.id,
+                (item) => item.data.type === 'ticket' && item.data.ticket?.id,
             )
             .map((item) => ({
                 id: item.data.ticket!.id,
@@ -78,9 +76,7 @@ export class TicketTreeProvider
             );
             dataTransfer.set(
                 'text/plain',
-                new vscode.DataTransferItem(
-                    items.map((t) => t.id).join('\n'),
-                ),
+                new vscode.DataTransferItem(items.map((t) => t.id).join('\n')),
             );
         }
     }
@@ -113,10 +109,7 @@ export class TicketTreeProvider
 
         const results = await Promise.allSettled(
             toMove.map((item) =>
-                this.ticketService.updateTicketStatus(
-                    item.id,
-                    targetStatus,
-                ),
+                this.ticketService.updateTicketStatus(item.id, targetStatus),
             ),
         );
 

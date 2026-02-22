@@ -1,6 +1,10 @@
 import * as vscode from 'vscode';
 import type { KnowledgeService } from '../services/knowledgeService';
-import type { Knowledge, KnowledgeCategory, KnowledgeTreeNodeData } from '../types';
+import type {
+    Knowledge,
+    KnowledgeCategory,
+    KnowledgeTreeNodeData,
+} from '../types';
 
 const CATEGORIES: KnowledgeCategory[] = [
     'architecture',
@@ -89,7 +93,9 @@ export class KnowledgeTreeProvider
         }
     }
 
-    private getCategoryChildren(category: KnowledgeCategory): KnowledgeTreeItem[] {
+    private getCategoryChildren(
+        category: KnowledgeCategory,
+    ): KnowledgeTreeItem[] {
         const items = this.knowledgeByCategory.get(category) || [];
         const sorted = [...items].sort((a, b) => {
             const aActive = a.active !== false ? 0 : 1;
@@ -101,14 +107,14 @@ export class KnowledgeTreeProvider
 
     private createCategoryNode(category: KnowledgeCategory): KnowledgeTreeItem {
         const count = this.knowledgeByCategory.get(category)?.length ?? 0;
-        const collapsible = count > 0
-            ? vscode.TreeItemCollapsibleState.Expanded
-            : vscode.TreeItemCollapsibleState.Collapsed;
-        const node = new KnowledgeTreeItem(
+        const collapsible =
+            count > 0
+                ? vscode.TreeItemCollapsibleState.Expanded
+                : vscode.TreeItemCollapsibleState.Collapsed;
+        const node = new KnowledgeTreeItem(category, collapsible, {
+            type: 'category',
             category,
-            collapsible,
-            { type: 'category', category },
-        );
+        });
         node.iconPath = new vscode.ThemeIcon(
             categoryIcon(category),
             new vscode.ThemeColor('icon.foreground'),

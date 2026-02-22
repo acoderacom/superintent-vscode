@@ -241,8 +241,7 @@ export function registerCommands(
                 const items: SessionQuickPickItem[] = [];
 
                 try {
-                    const sessions =
-                        await tmuxService.listSessions('local');
+                    const sessions = await tmuxService.listSessions('local');
 
                     for (const session of sessions) {
                         const icon = session.attached
@@ -257,10 +256,7 @@ export function registerCommands(
                         });
                     }
                 } catch (error) {
-                    console.error(
-                        'Failed to list sessions:',
-                        error,
-                    );
+                    console.error('Failed to list sessions:', error);
                 }
 
                 if (items.length === 0) {

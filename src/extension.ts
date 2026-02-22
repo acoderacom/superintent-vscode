@@ -1,5 +1,6 @@
 import type * as vscode from 'vscode';
 import { knowledgeModule } from './modules/knowledge';
+import { projectModule } from './modules/project';
 import { specModule } from './modules/spec';
 import { ticketModule } from './modules/ticket';
 import { tmuxModule } from './modules/tmux';
@@ -7,6 +8,7 @@ import { SSEClient } from './services/sseClient';
 import type { Module } from './types/module';
 
 const modules: Module[] = [
+    projectModule,
     tmuxModule,
     specModule,
     knowledgeModule,

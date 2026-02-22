@@ -15,7 +15,12 @@ export interface Knowledge {
     updated_at?: string;
 }
 
-export type KnowledgeCategory = 'architecture' | 'pattern' | 'truth' | 'principle' | 'gotcha';
+export type KnowledgeCategory =
+    | 'architecture'
+    | 'pattern'
+    | 'truth'
+    | 'principle'
+    | 'gotcha';
 
 export type KnowledgeTreeItemType = 'category' | 'knowledge' | 'info';
 

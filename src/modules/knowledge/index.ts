@@ -29,7 +29,12 @@ export const knowledgeModule: Module = {
             );
         }
 
-        registerCommands(context, treeProvider, webviewProvider, knowledgeService);
+        registerCommands(
+            context,
+            treeProvider,
+            webviewProvider,
+            knowledgeService,
+        );
 
         context.subscriptions.push({
             dispose: () => {

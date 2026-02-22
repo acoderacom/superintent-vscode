@@ -7,7 +7,6 @@ export class StatusBarProvider {
     private statusBarItem: vscode.StatusBarItem;
 
     constructor() {
-
         this.statusBarItem = vscode.window.createStatusBarItem(
             vscode.StatusBarAlignment.Left,
             100,

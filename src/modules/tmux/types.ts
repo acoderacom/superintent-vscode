@@ -58,12 +58,7 @@ export type SessionGroup = 'local' | 'remote';
 /**
  * Tree item type
  */
-export type TreeItemType =
-    | 'group'
-    | 'session'
-    | 'window'
-    | 'pane'
-    | 'info';
+export type TreeItemType = 'group' | 'session' | 'window' | 'pane' | 'info';
 
 /**
  * Tree node data
