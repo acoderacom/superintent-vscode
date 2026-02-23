@@ -43,10 +43,6 @@
     "views": {
       "superintent": [
         {
-          "id": "superintent.project.list",
-          "name": "Projects"
-        },
-        {
           "id": "superintent.spec.list",
           "name": "Specs"
         },
@@ -61,6 +57,10 @@
         {
           "id": "superintent.tmux.sessions",
           "name": "Sessions"
+        },
+        {
+          "id": "superintent.project.list",
+          "name": "Projects"
         }
       ]
     },
