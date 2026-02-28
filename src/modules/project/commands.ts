@@ -158,6 +158,18 @@ export function registerCommands(
 
     context.subscriptions.push(
         vscode.commands.registerCommand(
+            'superintent.project.copyPath',
+            async (item: ProjectTreeItem) => {
+                if (!item.data.project) {
+                    return;
+                }
+                await vscode.env.clipboard.writeText(item.data.project.path);
+            },
+        ),
+    );
+
+    context.subscriptions.push(
+        vscode.commands.registerCommand(
             'superintent.project.openInNewWindow',
             async (item: ProjectTreeItem) => {
                 if (!item.data.project) {
