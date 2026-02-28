@@ -116,6 +116,11 @@
         "icon": "$(multiple-windows)"
       },
       {
+        "command": "superintent.project.copyPath",
+        "title": "Copy Path",
+        "icon": "$(copy)"
+      },
+      {
         "command": "superintent.system.startRemote",
         "title": "Start Remote (Tailscale)",
         "icon": "$(device-mobile)"
@@ -313,6 +318,11 @@
           "command": "superintent.project.openInNewWindow",
           "when": "view == superintent.project.list && viewItem == project",
           "group": "1_actions@1"
+        },
+        {
+          "command": "superintent.project.copyPath",
+          "when": "view == superintent.project.list && viewItem == project",
+          "group": "1_actions@2"
         },
         {
           "command": "superintent.project.renameProject",
