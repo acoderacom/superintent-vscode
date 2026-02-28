@@ -61,6 +61,10 @@
         {
           "id": "superintent.project.list",
           "name": "Projects"
+        },
+        {
+          "id": "superintent.system.list",
+          "name": "System"
         }
       ]
     },
@@ -110,6 +114,21 @@
         "command": "superintent.project.openInNewWindow",
         "title": "Open in New Window",
         "icon": "$(multiple-windows)"
+      },
+      {
+        "command": "superintent.system.startRemote",
+        "title": "Start Remote (Tailscale)",
+        "icon": "$(device-mobile)"
+      },
+      {
+        "command": "superintent.system.startLocal",
+        "title": "Start Remote (Local)",
+        "icon": "$(device-mobile)"
+      },
+      {
+        "command": "superintent.system.startDashboard",
+        "title": "Start Dashboard",
+        "icon": "$(dashboard)"
       },
       {
         "command": "superintent.tmux.refresh",

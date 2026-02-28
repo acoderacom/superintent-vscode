@@ -16,3 +16,4 @@ esbuild.js
 CLAUDE.md
 biome.json
 build.sh
+**/.DS_Store

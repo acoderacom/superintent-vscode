@@ -4,7 +4,7 @@ dist/
 .vscode-test/
 release/
 
-.DS_Store
+**/.DS_Store
 
 # Superintent
 .superintent/.env
