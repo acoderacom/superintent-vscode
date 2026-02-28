@@ -65,8 +65,8 @@ export class TicketTreeProvider
                 (item) => item.data.type === 'ticket' && item.data.ticket?.id,
             )
             .map((item) => ({
-                id: item.data.ticket!.id,
-                status: item.data.ticket!.status,
+                id: item.data.ticket?.id,
+                status: item.data.ticket?.status,
             }));
 
         if (items.length > 0) {

@@ -117,11 +117,6 @@
         "icon": "$(refresh)"
       },
       {
-        "command": "superintent.tmux.toggleSortOrder",
-        "title": "Toggle Sort Order",
-        "icon": "$(list-ordered)"
-      },
-      {
         "command": "superintent.tmux.createSession",
         "title": "New Session",
         "icon": "$(add)"
@@ -255,11 +250,6 @@
         },
         {
           "command": "superintent.tmux.refresh",
-          "when": "view == superintent.tmux.sessions",
-          "group": "navigation"
-        },
-        {
-          "command": "superintent.tmux.toggleSortOrder",
           "when": "view == superintent.tmux.sessions",
           "group": "navigation"
         },

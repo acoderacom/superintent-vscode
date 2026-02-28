@@ -18,7 +18,7 @@ export class SpecTreeItem extends vscode.TreeItem {
 
 export class SpecTreeProvider implements vscode.TreeDataProvider<SpecTreeItem> {
     private _onDidChangeTreeData = new vscode.EventEmitter<
-        SpecTreeItem | undefined | null | void
+        SpecTreeItem | undefined | null | undefined
     >();
     readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 

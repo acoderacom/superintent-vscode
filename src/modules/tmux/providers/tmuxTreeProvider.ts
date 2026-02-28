@@ -74,39 +74,19 @@ export class TmuxTreeItem extends vscode.TreeItem {
     }
 }
 
-export type SessionSortOrder = 'name' | 'created';
-
 /**
  * Tmux tree data provider
  */
 export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
     private _onDidChangeTreeData = new vscode.EventEmitter<
-        TmuxTreeItem | undefined | null | void
+        TmuxTreeItem | undefined | null | undefined
     >();
     readonly onDidChangeTreeData = this._onDidChangeTreeData.event;
 
     private tmuxService: TmuxService;
-    private _sortOrder: SessionSortOrder = 'name';
 
     constructor(tmuxService: TmuxService) {
         this.tmuxService = tmuxService;
-    }
-
-    get sortOrder(): SessionSortOrder {
-        return this._sortOrder;
-    }
-
-    toggleSortOrder(): SessionSortOrder {
-        this._sortOrder = this._sortOrder === 'name' ? 'created' : 'name';
-        this.refresh();
-        return this._sortOrder;
-    }
-
-    setSortOrder(order: SessionSortOrder): void {
-        if (this._sortOrder !== order) {
-            this._sortOrder = order;
-            this.refresh();
-        }
     }
 
     refresh(): void {
@@ -124,10 +104,13 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
 
         switch (element.data.type) {
             case 'group':
-                return this.getSessionNodes(
-                    element.data.connectionId,
-                    element.data.group!,
-                );
+                if (element.data.group) {
+                    return this.getSessionNodes(
+                        element.data.connectionId,
+                        element.data.group,
+                    );
+                }
+                return [];
 
             case 'session':
                 if (element.data.session) {
@@ -149,7 +132,7 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
     private getGroupNodes(): TmuxTreeItem[] {
         const localNode = new TmuxTreeItem(
             'Local',
-            vscode.TreeItemCollapsibleState.Collapsed,
+            vscode.TreeItemCollapsibleState.Expanded,
             {
                 type: 'group',
                 connectionId: 'local',
@@ -160,7 +143,7 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
 
         const remoteNode = new TmuxTreeItem(
             'Remote',
-            vscode.TreeItemCollapsibleState.Collapsed,
+            vscode.TreeItemCollapsibleState.Expanded,
             {
                 type: 'group',
                 connectionId: 'local',
@@ -218,17 +201,7 @@ export class TmuxTreeProvider implements vscode.TreeDataProvider<TmuxTreeItem> {
                 return [node];
             }
 
-            if (this._sortOrder === 'created') {
-                sessions = sessions.sort((a, b) => {
-                    const timeA = a.createdAt?.getTime() || 0;
-                    const timeB = b.createdAt?.getTime() || 0;
-                    return timeA - timeB;
-                });
-            } else {
-                sessions = sessions.sort((a, b) =>
-                    a.name.localeCompare(b.name),
-                );
-            }
+            sessions = sessions.sort((a, b) => a.name.localeCompare(b.name));
 
             return sessions.map((session) => {
                 const node = new TmuxTreeItem(

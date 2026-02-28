@@ -1,5 +1,5 @@
-import * as http from 'http';
-import * as https from 'https';
+import * as http from 'node:http';
+import * as https from 'node:https';
 import * as vscode from 'vscode';
 
 export type SSEEventType =
@@ -38,7 +38,7 @@ export class SSEClient {
         }
         set.add(listener);
 
-        return { dispose: () => set!.delete(listener) };
+        return { dispose: () => set?.delete(listener) };
     }
 
     private getServerUrl(): string {

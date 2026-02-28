@@ -17,25 +17,6 @@ export function registerCommands(
         }),
     );
 
-    // Toggle sort order
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            'superintent.tmux.toggleSortOrder',
-            () => {
-                const newOrder = treeProvider.toggleSortOrder();
-                if (newOrder === 'name') {
-                    vscode.window.showInformationMessage(
-                        'Sessions sorted by name',
-                    );
-                } else {
-                    vscode.window.showInformationMessage(
-                        'Sessions sorted by creation time',
-                    );
-                }
-            },
-        ),
-    );
-
     // Create session
     context.subscriptions.push(
         vscode.commands.registerCommand(
@@ -95,10 +76,10 @@ export function registerCommands(
                 let confirmMessage: string;
 
                 if (sessionsToDelete.length === 1) {
-                    confirmMessage = `Are you sure you want to delete session "${sessionsToDelete[0].data.session!.name}"?`;
+                    confirmMessage = `Are you sure you want to delete session "${sessionsToDelete[0].data.session?.name}"?`;
                 } else {
                     const sessionNames = sessionsToDelete
-                        .map((s) => s.data.session!.name)
+                        .map((s) => s.data.session?.name)
                         .join(', ');
                     confirmMessage = `Are you sure you want to delete ${sessionsToDelete.length} sessions (${sessionNames})?`;
                 }
@@ -120,13 +101,13 @@ export function registerCommands(
                     try {
                         await tmuxService.killSession(
                             sessionItem.data.connectionId,
-                            sessionItem.data.session!.name,
+                            sessionItem.data.session?.name,
                         );
                         successCount++;
                     } catch (error) {
                         failedCount++;
                         console.error(
-                            `Failed to delete session ${sessionItem.data.session!.name}:`,
+                            `Failed to delete session ${sessionItem.data.session?.name}:`,
                             error,
                         );
                     }
@@ -137,7 +118,7 @@ export function registerCommands(
                 if (failedCount === 0) {
                     if (successCount === 1) {
                         vscode.window.showInformationMessage(
-                            `Session "${sessionsToDelete[0].data.session!.name}" deleted`,
+                            `Session "${sessionsToDelete[0].data.session?.name}" deleted`,
                         );
                     } else {
                         vscode.window.showInformationMessage(
@@ -348,10 +329,10 @@ export function registerCommands(
                 let confirmMessage: string;
 
                 if (windowsToDelete.length === 1) {
-                    confirmMessage = `Are you sure you want to delete window "${windowsToDelete[0].data.window!.name}"?`;
+                    confirmMessage = `Are you sure you want to delete window "${windowsToDelete[0].data.window?.name}"?`;
                 } else {
                     const windowNames = windowsToDelete
-                        .map((w) => w.data.window!.name)
+                        .map((w) => w.data.window?.name)
                         .join(', ');
                     confirmMessage = `Are you sure you want to delete ${windowsToDelete.length} windows (${windowNames})?`;
                 }
@@ -368,7 +349,7 @@ export function registerCommands(
 
                 // Delete in reverse index order to avoid index shifting
                 windowsToDelete.sort(
-                    (a, b) => b.data.window!.index - a.data.window!.index,
+                    (a, b) => b.data.window?.index - a.data.window?.index,
                 );
 
                 let successCount = 0;
@@ -378,14 +359,14 @@ export function registerCommands(
                     try {
                         await tmuxService.killWindow(
                             windowItem.data.connectionId,
-                            windowItem.data.session!.name,
-                            windowItem.data.window!.index,
+                            windowItem.data.session?.name,
+                            windowItem.data.window?.index,
                         );
                         successCount++;
                     } catch (error) {
                         failedCount++;
                         console.error(
-                            `Failed to delete window ${windowItem.data.window!.name}:`,
+                            `Failed to delete window ${windowItem.data.window?.name}:`,
                             error,
                         );
                     }
@@ -396,7 +377,7 @@ export function registerCommands(
                 if (failedCount === 0) {
                     if (successCount === 1) {
                         vscode.window.showInformationMessage(
-                            `Window "${windowsToDelete[0].data.window!.name}" deleted`,
+                            `Window "${windowsToDelete[0].data.window?.name}" deleted`,
                         );
                     } else {
                         vscode.window.showInformationMessage(
@@ -598,10 +579,10 @@ export function registerCommands(
                 let confirmMessage: string;
 
                 if (panesToKill.length === 1) {
-                    confirmMessage = `Are you sure you want to close pane ${panesToKill[0].data.pane!.index}?`;
+                    confirmMessage = `Are you sure you want to close pane ${panesToKill[0].data.pane?.index}?`;
                 } else {
                     const paneIndices = panesToKill
-                        .map((p) => p.data.pane!.index)
+                        .map((p) => p.data.pane?.index)
                         .join(', ');
                     confirmMessage = `Are you sure you want to close ${panesToKill.length} panes (${paneIndices})?`;
                 }
@@ -619,10 +600,10 @@ export function registerCommands(
                 // Delete in reverse ID order to avoid ID shifting
                 panesToKill.sort((a, b) => {
                     const aIndex = Number.parseInt(
-                        a.data.pane!.id.split('.').pop() || '0',
+                        a.data.pane?.id.split('.').pop() || '0',
                     );
                     const bIndex = Number.parseInt(
-                        b.data.pane!.id.split('.').pop() || '0',
+                        b.data.pane?.id.split('.').pop() || '0',
                     );
                     return bIndex - aIndex;
                 });
@@ -634,13 +615,13 @@ export function registerCommands(
                     try {
                         await tmuxService.killPane(
                             paneItem.data.connectionId,
-                            paneItem.data.pane!.id,
+                            paneItem.data.pane?.id,
                         );
                         successCount++;
                     } catch (error) {
                         failedCount++;
                         console.error(
-                            `Failed to close pane ${paneItem.data.pane!.id}:`,
+                            `Failed to close pane ${paneItem.data.pane?.id}:`,
                             error,
                         );
                     }
@@ -756,7 +737,7 @@ export function registerCommands(
                 }
 
                 const amount = Number.parseInt(amountStr, 10);
-                if (isNaN(amount) || amount <= 0) {
+                if (Number.isNaN(amount) || amount <= 0) {
                     vscode.window.showErrorMessage(
                         'Amount must be a positive number',
                     );

@@ -400,10 +400,9 @@ export class TmuxService {
         if (isEnabled) {
             await this.disableMouseMode(connectionId);
             return false;
-        } else {
-            await this.enableMouseMode(connectionId);
-            return true;
         }
+        await this.enableMouseMode(connectionId);
+        return true;
     }
 
     /**
@@ -428,12 +427,12 @@ export class TmuxService {
 
         await this.connectionManager.execute(
             connectionId,
-            `tmux source-file ~/.tmux.conf 2>/dev/null || true`,
+            'tmux source-file ~/.tmux.conf 2>/dev/null || true',
         );
 
         await this.connectionManager.execute(
             connectionId,
-            `tmux set-option -g mouse on 2>/dev/null || true`,
+            'tmux set-option -g mouse on 2>/dev/null || true',
         );
     }
 
@@ -445,7 +444,7 @@ export class TmuxService {
 
         await this.connectionManager.execute(
             connectionId,
-            `tmux set-option -g mouse off 2>/dev/null || true`,
+            'tmux set-option -g mouse off 2>/dev/null || true',
         );
     }
 }
