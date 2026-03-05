@@ -2,7 +2,7 @@
   "name": "superintent-vscode",
   "displayName": "Superintent VSCode",
   "description": "VScode extension for Superintent. Manage projects, tmux sessions, track specs, ticket, and knowledge from your sidebar.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "acodera",
   "license": "MIT",
   "icon": "resources/icons/icon.png",
@@ -466,7 +466,7 @@
     "vscode:prepublish": "bun run build",
     "build": "bun esbuild.js --production",
     "watch": "bun esbuild.js --watch",
-    "package": "mkdir -p release && vsce package --allow-missing-repository --out release",
+    "package": "mkdir -p release && bunx vsce package --allow-missing-repository --out release",
     "check": "biome check src",
     "check:fix": "biome check --write src",
     "lint": "biome lint src",
@@ -477,7 +477,7 @@
   "devDependencies": {
     "@biomejs/biome": "^2.4.5",
     "@types/node": "^25.3.3",
-    "@types/vscode": "^1.109.0",
+    "@types/vscode": "^1.107.0",
     "esbuild": "^0.27.3",
     "typescript": "^5.9.3"
   }

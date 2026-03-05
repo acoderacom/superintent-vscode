@@ -601,9 +601,11 @@ export function registerCommands(
                 panesToKill.sort((a, b) => {
                     const aIndex = Number.parseInt(
                         a.data.pane?.id.split('.').pop() || '0',
+                        10,
                     );
                     const bIndex = Number.parseInt(
                         b.data.pane?.id.split('.').pop() || '0',
+                        10,
                     );
                     return bIndex - aIndex;
                 });
