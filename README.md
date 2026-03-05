@@ -32,8 +32,33 @@ VScode extension for Superintent. Manage projects, tmux sessions, track specs, t
 
 ## Requirements
 
+- [Bun](https://bun.sh) runtime
 - `tmux` installed on local machine (for tmux features)
 - Superintent server running for tickets, knowledge, and specs
+
+## Development
+
+```bash
+# Install dependencies
+bun install
+
+# Build
+bun run build
+
+# Watch mode
+bun run watch
+
+# Lint & format (Biome)
+bun run check        # run all checks (format + lint)
+bun run check:fix    # fix all auto-fixable issues
+bun run lint         # lint only
+bun run lint:fix     # lint and fix
+bun run format       # check formatting
+bun run format:fix   # fix formatting
+
+# Package extension
+bun run package
+```
 
 ## Quick Start
 

@@ -463,17 +463,21 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run build",
-    "build": "node esbuild.js --production",
-    "watch": "node esbuild.js --watch",
+    "vscode:prepublish": "bun run build",
+    "build": "bun esbuild.js --production",
+    "watch": "bun esbuild.js --watch",
     "package": "mkdir -p release && vsce package --allow-missing-repository --out release",
-    "lint": "biome check src",
-    "lint:fix": "biome check --write src"
+    "check": "biome check src",
+    "check:fix": "biome check --write src",
+    "lint": "biome lint src",
+    "lint:fix": "biome lint --write src",
+    "format": "biome format src",
+    "format:fix": "biome format --write src"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.4.4",
-    "@types/node": "^25.3.2",
-    "@types/vscode": "^1.107.0",
+    "@biomejs/biome": "^2.4.5",
+    "@types/node": "^25.3.3",
+    "@types/vscode": "^1.109.0",
     "esbuild": "^0.27.3",
     "typescript": "^5.9.3"
   }
